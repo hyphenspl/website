@@ -1,0 +1,36 @@
+body {
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.game-container {
+    margin-bottom: 30px;
+}
+
+.content-below {
+    text-align: left;
+    line-height: 1.6;
+}
+
+.header {
+    position: relative;
+}
+
+.header img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Precisely centers the text */
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
