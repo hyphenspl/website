@@ -1,36 +1,56 @@
+@font-face {
+  font-family: BitMinecraft; /* set name */
+  src: url(Minecraft.ttf);
+}
+
 body {
-    font-family: sans-serif;
+    font-family: BitMinecraft;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 0 px;
     text-align: center;
 }
 .game-container {
     margin-bottom: 30px;
 }
 
-.content-below {
-    text-align: left;
-    line-height: 1.6;
-}
-
 .header {
-    position: relative;
-}
-
-.header img {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100px;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin-bottom: 200px;
+  margin-top: 0px;
+  padding-top: 0px;
+  object-position: center;
+  object-fit: cover;
 }
 
 .overlay-text {
   position: absolute;
-  top: 50%;
+  top: 17%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Precisely centers the text */
+  transform: translate(-50%, -50%);
   color: white;
-  font-size: 24px;
+  font-size: 90px;
   font-weight: bold;
+  text-align: center;
+}
+
+.how-to-play {
+  border-bottom-style: dashed;
+  border-bottom-color: gray;
+  width: 100%;
+  box-sizing: 
+  border-box;
+}
+
+.dev-log {
+  text-align: left;
+  line-height: 1.6;
+}
+
+.dev-log h2 {
   text-align: center;
 }
