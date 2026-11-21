@@ -6,9 +6,8 @@
     <link href="../stylesheet.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="header">
-      <img src="pop_the_lock_imgs/header.jpeg">
-      <div class="overlay-text">Pop the Lock</div>
+    <div class="header" style = "background-image: url('pop_the_lock_imgs/header.jpeg');">
+      Pop the Lock
     </div>
 
   <!-- PICO-8 Game Player -->
@@ -22,7 +21,7 @@
     </iframe>
   </div>
 
-  <!-- Content Underneath -->
+  <!-- Content Underneath-->
   <div class="how-to-play">
     <h2>How to Play</h2>
     <p>Press x to when your button hits the coin to go up a point. In endless, the buttons appear near the track.</p>
@@ -30,8 +29,75 @@
 
   <div class="dev-log">
     <h2>Development Log</h2>
-    <p>Blorp</p>
+    <h3>Version 1.0 - 11/21/2026</h3>
+    <p>Tokens Used: 2657/8192 <br> <br>
+    Added
+    <ul>
+      <li>Title, Main, Classic, Endless menus/screens</li>
+      <li>Classic Mode Line</li>
+      <li>Classic Mode Circle</li>
+      <li>Endless Mode</li>
+    </ul>
+    Future Plans
+    <ul>
+      <li>Fix bug in endless where if you try to hit c first after unlocking second track game freezes (what?)</li>
+      <li>Add Lives and Misses sprites</li>
+      <li>Add a background when the game is playing</li>
+      <li>Make good title screen design</li>
+      <li>Add music and sound effects</li>
+      <li>Clean up design of all the modes</li>
+      <li>Add animations to game over and start</li>
+      <li>Add high score board</li>
+    </ul> <br>
+    This is the third time I’ve made a Pop the Lock Clone lol. It’s my way of learning a lot about game engines while building a fun (at least to me) simple game that I can add on to that isn’t Flappy Bird. First with Unity, then with Godot, and finally for better or for worse, PICO-8. If you don’t know, Pop the Lock is an arcade game where you have a circular track that your… thingy moves around on and when it passes onto a coin you hit a button, score goes up, and the thingy changes direction. Hit 50 without missing a coin and you win the jackpot.
+    <br><iframe width="560" height="315" src="https://www.youtube.com/embed/Y7qfzS1V3Vk?si=z89nNvGj38u_G4kQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <br>As with all games, I first started with a prototype. For me, this prototype was just to prove that I could build this game in the first place and learn a lot about the process and capabilities (or lack of) of PICO-8. I also made a prototype for a circular track as well. <br>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/lP2AgFu79I4?si=n3SBobqs_UwGFico" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/48N8pt7LH08?si=Ms4nWdQO3QFxPbF-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> <br>
+    The straight line track was really simple to code. Basically, I made 3 files, a player, a track, and a coin. Each controlled their respective elements. With the initial functions, __init(), __update(), and __draw(), each just called the same function in the player, track and coin files. The track file contained information regarding the track and the game itself. It kept track of the lives and misses. The player file moved the player. It worked in tandem with the other two files to ensure that the player never fell off the track by switching directions, and when an input was pressed it determined whether or not it had a coin under it or not and destroyed it and spawned a new one if so. The coin file had information about the coin, but also spawned a new one every time coin_init() was called and checked whether or not the player had passed over it without clicking the button. <br><br>
+    The circle track, while functioning similarly, was kind of a pain to figure out. The main problems of the circle track were how to draw it and how to move the player. How to draw it was weird to figure out since for the prototype game, the circle track was made by using two circfill() commands with a fixed radius. One to draw a giant circle, and the other to blacken the middle to create a circle! While this worked for the prototype, it actually led me to discover a super interesting rule about the PICO-8 game engine itself when I made the actual game. So I wanted to have the middle of the circle be clear so that I could display fun decorations and the “# to go!” text that appears on all the arcade machines, however for some reason or another, my draw function was like this,
+    <br> <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw decorations<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw text<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draw track
+    <br><br>
+    This created a problem, you see, even though PICO-8 has a “clear” color, essentially a color that acts as see through, because that first circfill() happened after I drew the decorations and text before the track, that circfill actually drew over the text and decorations and erased them! So when the second circfill came in to create the see through, poof the text and decorations were gone! This actually stumped me for a while and I just had to mention this. Eventually my solution was to use four circ() functions which draws a single line circle at the desired radius. This led to some weird results where the line wasn’t filled in and it looked pretty bad, but I was able to fix it by moving the origin around to fill in the gaps. The player moving while not nearly as infuriating, took a lot of work to figure out. I was pretty stumped for a while but thankfully I stumbled upon <a href=https://www.lexaloffle.com/bbs/?tid=29094">this blog post</a> which basically taught me how to use sine and cosine in the engine and I followed their tutorial for objects moving in a circle. This was basically all I needed to make the player move around in that circular motion.
+    <br><br>
+    These two prototypes allowed me to understand what <b>NOT TO DO </b>(lol). I was super inexperienced going into that (like I didn’t realize Lua doesn’t really have traditional objects like in Java or Python until I was already deep into the straight track) and it led to some really funny and jank code that somehow worked. </p>
+    <img src="pop_the_lock_imgs/funny_mess.jpg">
+    <div class="subtext">Surely there's better ways to do this, right? Right?</div>
+    <p>So after that disaster, the first thing I did was map out what I wanted for the game. At this point in time, it meant drawing out the game flow which would allow me to understand what I wanted from this game and the scope of it.</p>
+    <img src="pop_the_lock_imgs/game_flow.jpg">
+    <div class="subtext">If you look at it for a few seconds, you’ll notice I cut things! This is because I forgor about it and decided later it wasn’t worth it to include.</div>
+    <p>After that, I decided how many different files I would need and exactly what functions go into them. As I added more variables and functions, I updated the drawing as I went.</p>
+    <img src="pop_the_lock_imgs/file_directory.jpg">
+    <div class="subtext">File directory</div>
+    <p>I also made a directory for all the variables in each file.</p>
+    <img src="pop_the_lock_imgs/variable_directory.jpg">
+    <div class="subtext">Table of contents</div>
+    <p>
+      I made these two directories after understanding more about tables and how they can stack into each other to create more complicated games that allow for the storing of information in… “objects” which are basically just arrays in arrays (I was 3 tables deep by the end of this version). It definitely was a challenging experience not having traditional classes as objects but it was super fun to work around it and make the code work decently efficiently.
+      <br><br>
+      The gameplay in the classic modes is the exact same as the prototypes. However, I really wanted to add a little bit of spin on the classic Pop the Lock formula, hence, Endless Mode. Endless mode is a creation of mine where I was like… okay but what if you controlled two of them at once. I think it's a great way to add some depth to the game. It adds difficulty while also building upon the previously established mechanics of the game. Having multiple tracks at once also twists the formula as it activates a different part of the brain, multitasking (idk if this is a part of the brain) and it becomes less reliant on pure reaction time.
+    </p>
+    <img src="pop_the_lock_imgs/visual.jpg">
+    <div class="subtext">Visualization of the two modes</div>
+    <p>
+      While endless mode is an interesting idea, it forced me to completely rework how I made the gameplay in the prototypes. In the prototypes, I had files that specifically made the player, coin, and track for the straight track, and files for the circle track. While this works for the simple classic mode with only one track, it becomes more and more unfeasible as you add more tracks in the endless mode. The best solution would be to make multiple of the same files with tiny differences in how they position the track and move the players and all that stuff. While it would probably fit within the constraints of the PICO-8 fantasy console, I am a big fan of DRY (don’t repeat yourself) coding and looked for better solutions. If you look at the files directory, you can see what I did! Essentially, in file number 2, which hosts the code to run gameplay, I made a table that contains all the tracks. The tracks are defined as tables of themselves, which host information regarding its position, misses, rng, what button it's assigned to, its player, and its coin. The player and coin are also tables of themselves which hold the position of each and how to move. While it seems really complicated, it actually works a lot like classes and objects present in other game engines, just with more setup and praying you didn’t accidentally get a variable name wrong in one of your many files that references tracks.player.direction, which is really easy to do since the game engine doesn’t have the nice quality of life UI like VS Code or Eclipse. After forming the data structures, I assigned each track a type, 1 - line, 2 - vertical, 3 - circle. Each file has its own code that handles the type of track it is from where it’s positioned, how the player moves, how the coin rng works, stuff like that. 
+      <br><br>
+      I also made a game type variable, 1 - classic line, 2 - classic circle, 3 - endless, to keep track of what game type the player is currently in. Each file also has its own code that checks what game type is the current one, and runs accordingly.
+      <br><br>
+      The menus in this game are also really simple with the same idea as above, menu type keeps track of which menu they are on and file 2 has the code to handle it.
+      <br><br>
+      I also had a slew of helper functions that I had decided to put all in file 1, determinex(), determiney(), rndb(), etc were all really helpful functions that I used across multiple files.
+      <br><br>
+      Obviously, this game is not of the greatest quality. There are lots of bugs, cut features (highscores who?), and it's just not visually interesting. My whole goal with this project was to A. Learn more about the PICO-8 game engine, and B. Get something out there. I’m happy to say that I believe that I achieved both of these goals. I had actually set a deadline of November 16th to finish and launch the game on a website in order to push myself to work on it a lot within a very short time period. As such, I cut the scope of the project down and down until I came up with the bare essentials of the package, the gameplay. Clearly I made a few mistakes with adding some things in a little too early, but overall I think I succeeded in making sure that the game that ended up as Version 1 had everything it needed to function and exist. I will still hopefully continue to improve this game and make it in all its glory and original scope as I believe I still have so much to learn from this project.
+    </p>
+
   </div>
+
+  <div class="footer">
+    <a href="../../index.html">Return?</a>
+  </div>
+
 
 </body>
 </html>
